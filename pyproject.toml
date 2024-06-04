@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ASAHM"
+authors = [
+    {name = "Tejada Luis", email = "luis.tejada@univ-lille.fr"},
+    {name = "Coulibaly Ibrahim", email = "coulibaly.ibrahim1996@gmail.com"},
+]
+description ="A python module that automatically generates gcodes for hybrid FDM/CNC process"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["FDM", "CNC", "Hybrid"]
+license = {text = "BSD-3-Clause"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "trimesh[easy]",
+    "matplotlib",
+    "geopandas",
+]
+
+version = "0.0.1"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
