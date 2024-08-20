@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Hybridator'
+project = 'ASAHM'
 copyright = '2023, Tejada Luis, Coulibaly Ibrahim'
 author = 'Tejada Luis, Coulibaly Ibrahim'
 release = '0.0.1'
