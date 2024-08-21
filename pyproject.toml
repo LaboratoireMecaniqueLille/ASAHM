@@ -8,6 +8,9 @@ authors = [
     {name = "Tejada Luis", email = "luis.tejada@univ-lille.fr"},
     {name = "Coulibaly Ibrahim", email = "coulibaly.ibrahim1996@gmail.com"},
 ]
+maintainers = [
+    {name = "Antoine Weisrock", email = "antoine.weisrock@gmail.com"},
+]
 description ="A python module that automatically generates gcodes for hybrid FDM/CNC process"
 readme = "README.md"
 requires-python = ">=3.7"
