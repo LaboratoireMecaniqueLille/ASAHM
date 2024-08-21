@@ -1,35 +1,35 @@
 API
 ===
 
-.. automodule:: hybridator
+.. automodule:: ASAHM
    :members:
 
 Model processing
 ----------------
 
-.. automodule:: hybridator.model_processing
+.. automodule:: ASAHM.model_processing
    :members:
 
 Original gcode processing
 -------------------------
 
-.. automodule:: hybridator.original_gcode_processing
+.. automodule:: ASAHM.original_gcode_processing
    :members:
 
 Contouring
 ----------
 
-.. automodule:: hybridator.contouring_operations
+.. automodule:: ASAHM.contouring_operations
    :members:
 
 Surfacing
 ---------
 
-.. automodule:: hybridator.surfacing_operations
+.. automodule:: ASAHM.surfacing_operations
    :members:
 
 Gcode construction operations
 -----------------------------
 
-.. automodule:: hybridator.gcodes_contruction_operations
+.. automodule:: ASAHM.gcodes_contruction_operations
    :members:
