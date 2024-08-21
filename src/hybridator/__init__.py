@@ -31,9 +31,9 @@ Functions:
 Example:
     To use this module, provide the paths to the 3MF, STL, and GCODE files as command-line arguments. 
     Optionally, provide paths to the parameters INI file and the output folder. For example:
-    python -m hybridator /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode
+    python -m ASAHM /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode
     or:
-    python -m hybridator /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode --path_ini_file /home/usr/Desktop --final_folder /home/usr/Desktop
+    python -m ASAHM /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode --path_ini_file /home/usr/Desktop --final_folder /home/usr/Desktop
 
 
     
