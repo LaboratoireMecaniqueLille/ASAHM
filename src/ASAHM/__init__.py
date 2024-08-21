@@ -13,14 +13,14 @@ Attributes:
     path_3mf (str): Path to the 3MF file.
     path_stl (str): Path to the STL file.
     --path_ini_file (str, optional): Path to the parameters INI file.
-        Default is None.
+    Default is None.
     --final_folder (str, optional): Path to write the hybridized Gcode. Default
-        is the directory of the GCODE file.
+    is the directory of the GCODE file.
 
 Functions:
     raise_nonmesh_travel_speed(): Modifies non-mesh travel speeds in G-code.
     extract_layer_data(): Extracts data from the G-code, like layer numbers and
-        Z coordinates.
+    Z coordinates.
     load_model(): Loads and positions the STL model for the 3D printer.
     get_contour_sections(): Slices the STL at the correct heights.
     get_cnc_contouring_coords(): Generates a list of buffered contour slices.
@@ -30,9 +30,9 @@ Functions:
     generate_raw_surfacing_toolpath(): Generates raw toolpaths for surfacing.
     generate_surfacing_data(): Produces a list with surfacing operations info.
     construct_cnc_surfacing_gcode(): Produces G-code for all surfacing
-        operations.
+    operations.
     merge_contour_and_surfacing_codes(): Merges contouring and surfacing
-        G-code.
+    G-code.
     hbd_fdm_cnc_merge_codes(): Finalizes and writes the hybridized G-code.
 
 Example:

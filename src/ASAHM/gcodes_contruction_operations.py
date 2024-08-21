@@ -14,7 +14,7 @@ def is_clockwise(line_string):
     
     Args:
         line_string (shapely.geometry.linestring.LineString): The line string
-            to check.
+        to check.
 
     Returns:
         bool: True if the line string is in clockwise order, False otherwise.
@@ -43,7 +43,7 @@ def reverse_line_string(line_string):
     
     Args:
         line_string (shapely.geometry.linestring.LineString): The line string
-            to be reversed.
+        to be reversed.
 
     Returns:
         shapely.geometry.linestring.LineString: The reversed line string.
@@ -85,7 +85,7 @@ def construct_cnc_contouring_gcode(gcode_datas,
     Args:
         gcode_datas (list of dict): Data for each G-code layer.
         buffered_contours_list (list of dict): Buffered contours for
-            processing.
+        processing.
         contouring_speed (str): Contouring operation speed.
         bridge_speed (str): Bridge operation speed.
         print_tool_number (str): Number identifier for the print tool.
@@ -94,7 +94,7 @@ def construct_cnc_contouring_gcode(gcode_datas,
         layer_height (float): Height of individual layers.
         z_contouring_adjustment (float): Adjustment for Z contouring.
         write_isolate_contouring_code (bool): Whether to write the G-code to a
-            file.
+        file.
         contouring_shadow_pass (bool): Enable shadow pass for contouring.
         filename (str): Name of the G-code file, if saved.
         write_folder (str): Directory for saving the G-code file.
@@ -214,7 +214,7 @@ def construct_cnc_surfacing_gcode(surfacing_data,
         surfacing_swoop_speed (str): Speed for surfacing swoop.
         surfacing_shadow_pass (int): Number of shadow passes for surfacing.
         surfacing_roughing_pass_value (float): Value for surfacing roughing
-            pass.
+        pass.
         surfacing_roughing_pass (bool): Whether to perform a roughing pass.
         filename (str): Name of the output file.
         write_folder (str): Destination folder for the output file.
@@ -387,15 +387,15 @@ def merge_contour_and_surfacing_codes(dict_surfacing_coord,
 
     Args:
         dict_surfacing_coord (dict): Dictionary with Z heights as keys and
-            their corresponding surfacing G-code as values.
+        their corresponding surfacing G-code as values.
         dict_milling_coord (dict): Dictionary with layer information as keys
-            and their corresponding contouring G-code as values.
+        and their corresponding contouring G-code as values.
         write_cnt_surf_merged_code (bool): If True, writes the merged G-code to
-            a file.
+        a file.
         filename (str): Name of the output file if `write_cnt_surf_merged_code`
-            is True.
+        is True.
         write_folder (str): Destination folder for the output file if
-            `write_cnt_surf_merged_code` is True.
+        `write_cnt_surf_merged_code` is True.
 
     Returns:
         dict: Dictionary with layer information as keys and the merged G-code
@@ -444,10 +444,10 @@ def hbd_fdm_cnc_merge_codes(gcode,
     Args:
         gcode (list[str]): Initial G-code sequence.
         gcode_datas (list[dict]): Information about each layer, including the
-            layer's ending line (`layer_ending_line`) and its number
-            (`layer_number`).
+        layer's ending line (`layer_ending_line`) and its number
+        (`layer_number`).
         merged_cnt_surfacing_dict (dict): Dictionary with layer numbers as keys
-            and corresponding CNC G-code operations as values.
+        and corresponding CNC G-code operations as values.
         filename (str): Name for the output file.
         write_folder (str): Directory to save the output file.
 

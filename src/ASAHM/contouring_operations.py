@@ -42,7 +42,7 @@ def get_cnc_contouring_coords(sections_2d,
     
     Args:
         sections_2d (list): A list of section objects generated from the sliced
-            STL.
+        STL.
         contour_tool_radius (float): The radius of the contour tool.
         contouring_direction:
         

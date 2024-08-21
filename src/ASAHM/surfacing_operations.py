@@ -64,9 +64,9 @@ def generate_surfacing_polygon(model_center_base,
         model (Mesh object): The STL model object to analyze.
         z_surfaces (list): List of heights where surfacing zones exist.
         surfacing_clearance (float): Clearance value for surfacing, the
-            distance going out of the bulk of material to clean chips.
+        distance going out of the bulk of material to clean chips.
         show_surfacing_polygons (bool): If True, display the generated polygons
-            for visualization.
+        for visualization.
 
     Returns:
         list[shapely.geometry.MultiPolygon]: A list of cleaned and buffered
@@ -134,12 +134,12 @@ def generate_raw_surfacing_toolpath(cleaned_z_surfaces,
 
     Args:
         cleaned_z_surfaces (list):  List of clean polygons representing
-            surfaces to be machined.
+        surfaces to be machined.
         surfacing_tool_radius (float): Radius of the endmill.
         surfacing_stepover (float): The surfacing step (offset) to be applied
-            when generating paths.
+        when generating paths.
         show_surfacing_toolpaths (bool, optional): If True, displays
-            intermediate toolpath steps. Defaults to False.
+        intermediate toolpath steps. Defaults to False.
 
     Returns:
         list: A list of tool paths in Shapely multilineString format
@@ -154,7 +154,7 @@ def generate_raw_surfacing_toolpath(cleaned_z_surfaces,
         radius = 5.0
         stepover = 2.0
         toolpaths = generate_raw_surfacing_toolpath(cleaned_surfaces, radius,
-                                                    stepover, show=True)
+        stepover, show=True)
     """
 
     temp_surfaceable_heights = list()
@@ -203,11 +203,11 @@ def generate_surfacing_data(surfaceable_heights,
     Args:
         surfaceable_heights:
         z_surfaces (list): List of heights where horizontal faces have been
-            detected.
+        detected.
         cleaned_z_surfaces (list): List of polygons (after cleaning)
-            representing surfaces to be machined.
+        representing surfaces to be machined.
         raw_surfacing_toolpath (list): List of MultiLineString representing
-            surfacing tool paths.
+        surfacing tool paths.
 
     Returns:
         list: A list of dictionaries containing the data required to generate
@@ -217,9 +217,8 @@ def generate_surfacing_data(surfaceable_heights,
         z_heights = [0.1, 0.2, 0.3]
         cleaned_surfaces = [polygon1, polygon2, polygon3]
         toolpaths = [multilinestring1, multilinestring2, multilinestring3]
-        surfacing_data_list = generate_surfacing_data(z_heights,
-                                                      cleaned_surfaces,
-                                                      toolpaths)
+        surfacing_data_list = generate_surfacing_data(
+        z_heights, cleaned_surfaces, toolpaths)
     """
 
     surfacing_data = list()
@@ -246,9 +245,9 @@ def sort_toolpaths(surfacing_data, surfacing_direction):
     
     Args:
         surfacing_data (list[dict]): A list of dictionaries where each
-            dictionary contains surfacing data. The key 'Surfacing_passes' in
-            each dictionary should have a value that is a
-            shapely.geometry.MultiLineString instance or any other geometry.
+        dictionary contains surfacing data. The key 'Surfacing_passes' in each
+        dictionary should have a value that is a
+        shapely.geometry.MultiLineString instance or any other geometry.
         surfacing_direction:
 
     Returns:
