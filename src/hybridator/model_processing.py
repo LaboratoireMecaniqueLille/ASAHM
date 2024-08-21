@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import os
 import trimesh
 import numpy as np
@@ -21,16 +23,19 @@ def load_model(path_3mf):
     Notes:
         Given path to a 3MF, this function loads the models, 
         calculates transformations, and extracts information like centroids and 
-        bounding box. USE_PYGEOS environment variable is set to '0' at the beginning 
-        to avoid potential conflicts or issues related to pygeos library.
+        bounding box. USE_PYGEOS environment variable is set to '0' at the
+        beginning  to avoid potential conflicts or issues related to pygeos
+        library.
     """
+
     os.environ['USE_PYGEOS'] = '0'
     pack = trimesh.load(path_3mf)
     for key in pack.graph.nodes:
         if any(substring in key.lower() for substring in ('stl', '3mf')):
             stl = key
 
-    data = {'matrix_transform': pack.graph[stl][0], 'nom_geom': pack.graph[stl][1]}
+    data = {'matrix_transform': pack.graph[stl][0],
+            'nom_geom': pack.graph[stl][1]}
     original_model = pack.geometry[data['nom_geom']]
     T = data['matrix_transform']
     model = original_model.apply_transform(T)

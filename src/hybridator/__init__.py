@@ -1,21 +1,26 @@
+# coding: utf-8
+
 """
 Hybrid G-Code Generator
 
-This module provides functionality for generating a hybridized G-code usable on a RepRap multi tool machine equiped
-with CNC milling system ans FDM 3d printing extruders. The module works given 3MF, STL, and GCODE files.
-The Gcode has to be generated with Cura Slicer, some parameters have to be activated: oozing shield, Cura gcode post processing...
-Find the mandatory parameters in requirements.txt
+This module provides functionality for generating a hybridized G-code usable on
+a RepRap multi tool machine equipped with CNC milling system ans FDM 3d
+printing extruders. The module works given 3MF, STL, and GCODE files. The Gcode
+has to be generated with Cura Slicer, some parameters have to be activated:
+oozing shield, Cura Gcode post-processing...
 
 Attributes:
     path_3mf (str): Path to the 3MF file.
     path_stl (str): Path to the STL file.
-    path_gcode (str): Path to the GCODE file.
-    --path_ini_file (str, optional): Path to the parameters INI file. Default is None.
-    --write_folder (str, optional): Path to write the hybridized Gcode. Default is the directory of the GCODE file.
+    --path_ini_file (str, optional): Path to the parameters INI file.
+        Default is None.
+    --final_folder (str, optional): Path to write the hybridized Gcode. Default
+        is the directory of the GCODE file.
 
 Functions:
     raise_nonmesh_travel_speed(): Modifies non-mesh travel speeds in G-code.
-    extract_layer_data(): Extracts data from the G-code, like layer numbers and Z coordinates.
+    extract_layer_data(): Extracts data from the G-code, like layer numbers and
+        Z coordinates.
     load_model(): Loads and positions the STL model for the 3D printer.
     get_contour_sections(): Slices the STL at the correct heights.
     get_cnc_contouring_coords(): Generates a list of buffered contour slices.
@@ -24,19 +29,28 @@ Functions:
     generate_surfacing_polygon(): Creates polygons for machining from STL.
     generate_raw_surfacing_toolpath(): Generates raw toolpaths for surfacing.
     generate_surfacing_data(): Produces a list with surfacing operations info.
-    construct_cnc_surfacing_gcode(): Produces G-code for all surfacing operations.
-    merge_contour_and_surfacing_codes(): Merges contouring and surfacing G-code.
+    construct_cnc_surfacing_gcode(): Produces G-code for all surfacing
+        operations.
+    merge_contour_and_surfacing_codes(): Merges contouring and surfacing
+        G-code.
     hbd_fdm_cnc_merge_codes(): Finalizes and writes the hybridized G-code.
 
 Example:
-    To use this module, provide the paths to the 3MF, STL, and GCODE files as command-line arguments. 
-    Optionally, provide paths to the parameters INI file and the output folder. For example:
-    python -m ASAHM /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode
+    To use this module, provide the paths to the 3MF and GCODE files as
+    command-line arguments. Optionally, provide paths to the parameters INI
+    file and the output folder. For example:
+    ::
+
+        python -m ASAHM /home/usr/Desktop/example.3mf \
+/home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode
+
     or:
-    python -m ASAHM /home/usr/Desktop/example.3mf /home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode --path_ini_file /home/usr/Desktop --final_folder /home/usr/Desktop
+    ::
 
+        python -m ASAHM /home/usr/Desktop/example.3mf \
+/home/usr/Desktop/example.gcode --path_ini_file /home/usr/Desktop \
+--final_folder /home/usr/Desktop
 
-    
 """
 
 from .__version__ import __version__
