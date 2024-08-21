@@ -4,7 +4,7 @@ Installation & Usage
 Installation
 ----------------
 
-texte a ecrire :func:`hybridator.model_processing`
+texte a ecrire :func:`ASAHM.model_processing`
 
 Usage
 ------
