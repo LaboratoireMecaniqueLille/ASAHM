@@ -26,6 +26,7 @@ def is_clockwise(line_string):
     area = sum((coords[i][0]*coords[i+1][1] - coords[i+1][0]*coords[i][1]) for i in range(n))
     return area < 0
 
+
 #Function for reversing linestrings if they are not in the desired orientation
 def reverse_line_string(line_string):
     """
@@ -300,6 +301,7 @@ def construct_cnc_surfacing_gcode(
                 
     return dict_surfacing_coord
 
+
 #Merges the contouring and surfacing ops at the right heights
 def merge_contour_and_surfacing_codes(dict_surfacing_coord,dict_milling_coord,write_cnt_surf_merged_code,filename,write_folder):
     """
@@ -343,6 +345,7 @@ def merge_contour_and_surfacing_codes(dict_surfacing_coord,dict_milling_coord,wr
                 for line in merged_cnt_surfacing_dict[f'{key}'] :
                     f.write(line + '\n')
     return merged_cnt_surfacing_dict
+
 
 def hbd_fdm_cnc_merge_codes(gcode,gcode_datas,merged_CNT_surfacing_dict,filename,write_folder):
     """

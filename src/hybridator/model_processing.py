@@ -2,7 +2,7 @@ import os
 import trimesh
 import numpy as np
 
-#>>> def load_model(path_3mf, path_stl):
+
 def load_model(path_3mf):
     """
     Load and process 3MF file.
@@ -40,17 +40,4 @@ def load_model(path_3mf):
     filename_with_extension = os.path.basename(path_3mf)
     filename, _ = os.path.splitext(filename_with_extension)
 
-    # stl = trimesh.load(path_stl)
-    # x_min = stl.bounds[0][0]
-    # x_max = stl.bounds[1][0]
-    # y_min = stl.bounds[0][1]
-    # y_max = stl.bounds[1][1]
-    # x_center = round((abs(x_max) - abs(x_min)) / 2, 2)
-    # y_center = round((abs(y_max) - abs(y_min)) / 2, 2)
-    # hull_center = np.array([[round(x_center, 2)], [round(y_center, 2)]])
-    # stl_centroid = np.array([[round(stl.centroid[0], 2)], [round(stl.centroid[1], 2)]])
-    # xy_shift = [
-    #     round(stl_centroid[0][0] - hull_center[0][0], 2),
-    #     round(stl_centroid[1][0] - hull_center[1][0], 2)
-    # return model, T, t_2d, filename, xy_shift
     return model, T, t_2d, filename

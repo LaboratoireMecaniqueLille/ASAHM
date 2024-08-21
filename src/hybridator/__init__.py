@@ -46,18 +46,3 @@ from . import model_processing
 from . import gcodes_contruction_operations
 from . import surfacing_operations
 from . import contouring_operations
-
-
-# from original_gcode_processing import raise_nonmesh_travel_speed, extract_layer_data
-# from model_processing import load_model
-# from contouring_operations import get_contour_sections, get_cnc_contouring_coords
-# from gcodes_contruction_operations import (construct_cnc_contouring_gcode,
-#     construct_cnc_surfacing_gcode,
-#     merge_contour_and_surfacing_codes,
-#     hbd_fdm_cnc_merge_codes
-# )
-# from surfacing_operations import (find_surfacing_zones,
-#     generate_surfacing_polygon,
-#     generate_raw_surfacing_toolpath,
-#     generate_surfacing_data
-# )

@@ -1,5 +1,6 @@
 import re
 
+
 def raise_nonmesh_travel_speed(gcode, non_mesh_travel_speed, substractive_start_layer):
     """
     Modify MESH NON MESH travel speeds in G-code to prevent oozing after a susbstractive pahse.
@@ -52,6 +53,7 @@ def raise_nonmesh_travel_speed(gcode, non_mesh_travel_speed, substractive_start_
         line_number_to_insert = mesh_speed_dict[i]['to_modify_line_number'] + 1
         speed = mesh_speed_dict[i]['speed']
         gcode.insert(line_number_to_insert, f"{work_type} F{speed}")
+
 
 def extract_layer_data(gcode, substractive_start_layer, layer_height):
     """

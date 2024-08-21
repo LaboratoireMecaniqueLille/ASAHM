@@ -3,20 +3,6 @@ import argparse
 import os
 import time
 
-# from original_gcode_processing import raise_nonmesh_travel_speed, extract_layer_data
-# from model_processing import load_model
-# from contouring_operations import get_contour_sections, get_cnc_contouring_coords
-# from gcodes_contruction_operations import (construct_cnc_contouring_gcode,
-#     construct_cnc_surfacing_gcode,
-#     merge_contour_and_surfacing_codes,
-#     hbd_fdm_cnc_merge_codes
-# )
-# from surfacing_operations import (find_surfacing_zones,
-#     generate_surfacing_polygon,
-#     generate_raw_surfacing_toolpath,
-#     generate_surfacing_data
-# )
-
 start_time = time.time()
 
 from .original_gcode_processing import raise_nonmesh_travel_speed, extract_layer_data
@@ -94,9 +80,6 @@ non_mesh_travel_speed= config.getint('codes','non_mesh_travel_speed', fallback= 
 # Load the Gcode File
 with open(path_gcode, 'r', encoding='UTF-8') as gcode :
     gcode = (gcode.read()).split("\n")
-
-# Modificate MESH=NONMESH travel speed to avoid oozing.
-# raise_nonmesh_travel_speed(gcode, non_mesh_travel_speed, substractive_start_layer)
 
 # Export datas in the original gcode (layer n°, Z height, starting & ending line of each layer)
 # Generates a list with the Z coordinates where the model has been sliced in the gcode

@@ -6,6 +6,7 @@ import shapely
 from shapely.geometry import MultiPolygon
 from shapely.geometry.multipolygon import MultiPolygon as ShapelyMultiPolygon
 
+
 def find_surfacing_zones(model):
     """
     Scans a model and returns a set of Z heights where pure horizontal surfaces exist, 
@@ -36,6 +37,7 @@ def find_surfacing_zones(model):
 
     z_surfaces = sorted(z_surfaces) if z_surfaces else [0]
     return z_surfaces
+
 
 def generate_surfacing_polygon(model_center_base, model, z_surfaces, t_2d, surfacing_clearance, show_surfacing_polygons):
     """
@@ -98,6 +100,7 @@ def generate_surfacing_polygon(model_center_base, model, z_surfaces, t_2d, surfa
 
     return cleaned_z_surfaces
 
+
 def generate_raw_surfacing_toolpath(cleaned_z_surfaces, surfacing_tool_radius, surfacing_stepover, show_surfacing_toolpaths):
     """
     Generates surfacing toolpaths doing consecutive offsets of the polygons corresponding to surfaces that have to be surfaced.
@@ -154,6 +157,7 @@ def generate_raw_surfacing_toolpath(cleaned_z_surfaces, surfacing_tool_radius, s
     
     return raw_surfacing_toolpath , surfacable_heights
 
+
 def generate_surfacing_data(surfacable_heights, z_surfaces, cleaned_z_surfaces, raw_surfacing_toolpath):
     """
     Generates a list of dictionaries that contain all the data needed to then generate G-codes for surfacing.
@@ -181,6 +185,7 @@ def generate_surfacing_data(surfacable_heights, z_surfaces, cleaned_z_surfaces, 
         dicsurf["Surfacing_passes"] = raw_surfacing_toolpath[i]
         surfacing_data.append(dicsurf)
     return surfacing_data
+
 
 def sort_toolpaths(surfacing_data, surfacing_direction):
     """
