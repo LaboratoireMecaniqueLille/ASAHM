@@ -76,7 +76,7 @@ def construct_cnc_contouring_gcode(gcode_datas,
                                    filename,
                                    write_folder):
     """
-    Constructs CNC contouring G-code for a reprap 3D printer based on provided
+    Constructs CNC contouring G-code for a RepRap 3D printer based on provided
     parameters. This function processes each layer of the G-code and generates
     contouring toolpaths. If `write_isolate_contouring_code` is set to True,
     the function will write the contouring Gcode alone according to the
@@ -86,10 +86,10 @@ def construct_cnc_contouring_gcode(gcode_datas,
         gcode_datas (list of dict): Data for each G-code layer.
         buffered_contours_list (list of dict): Buffered contours for
             processing.
-        contouring_speed (float): Contouring operation speed.
-        bridge_speed (float): Bridge operation speed.
-        print_tool_number (int): Number identifier for the print tool.
-        contour_tool_number (int): Number identifier for the contour tool.
+        contouring_speed (str): Contouring operation speed.
+        bridge_speed (str): Bridge operation speed.
+        print_tool_number (str): Number identifier for the print tool.
+        contour_tool_number (str): Number identifier for the contour tool.
         jump_value (float): Value of jump between operations.
         layer_height (float): Height of individual layers.
         z_contouring_adjustment (float): Adjustment for Z contouring.
@@ -103,7 +103,7 @@ def construct_cnc_contouring_gcode(gcode_datas,
         dict: Dictionary with milling coordinates for each layer.
     """
 
-    preambule = f'{contour_tool_number}'
+    preamble = f'{contour_tool_number}'
     postamble = f'{print_tool_number}'
     contouring_corrected_jump_value = jump_value + z_contouring_adjustment
     positive_jump = [f'G91 G0 Z{contouring_corrected_jump_value}', 'G90']
@@ -112,21 +112,21 @@ def construct_cnc_contouring_gcode(gcode_datas,
     dict_milling_coord = dict()
 
     for j, line in enumerate(gcode_datas):
-        listecoord = list()
+        list_coord = list()
         z_layer_height = gcode_datas[j]['layer_z_height']
         z_layer_number = gcode_datas[j]['layer_number']
 
-        listecoord.append(f';CNC Contour Z={z_layer_height}')
-        listecoord.append(f';CNC Contour Layer n°{z_layer_number}')
-        listecoord.append(preambule)
-        listecoord.append(f'G0 Z{z_layer_height + jump_value} F{bridge_speed}')
+        list_coord.append(f';CNC Contour Z={z_layer_height}')
+        list_coord.append(f';CNC Contour Layer n°{z_layer_number}')
+        list_coord.append(preamble)
+        list_coord.append(f'G0 Z{z_layer_height + jump_value} F{bridge_speed}')
 
         for buffered_type in ['buffered_int', 'buffered_ext']:
             for key in buffered_contours_list[j][buffered_type].keys():
                 contour = buffered_contours_list[j][buffered_type][key]
                 contour_type = ('intern' if buffered_type == 'buffered_int'
                                 else 'extern')
-                listecoord.append(f';Milling {contour_type} {key} / '
+                list_coord.append(f';Milling {contour_type} {key} / '
                                   f'Layer={z_layer_number} / '
                                   f'Z ={z_layer_height}')
                 
@@ -137,19 +137,19 @@ def construct_cnc_contouring_gcode(gcode_datas,
                            layer_height)
                     z = f'Z{round(val, 2)}'
                     if i == 0:
-                        listecoord.append(f'G0 {x} {y} F{bridge_speed}')
-                        listecoord.append(f'{negative_jump[0]} '
+                        list_coord.append(f'G0 {x} {y} F{bridge_speed}')
+                        list_coord.append(f'{negative_jump[0]} '
                                           f'F{bridge_speed}')
-                        listecoord.append(negative_jump[1])
+                        list_coord.append(negative_jump[1])
                     elif i > 0:
-                        listecoord.append(f'G1 {x} {y} {z} '
+                        list_coord.append(f'G1 {x} {y} {z} '
                                           f'F{contouring_speed}')
                         
-                listecoord.append(f'{positive_jump[0]} F{bridge_speed}')
-                listecoord.append(positive_jump[1])
+                list_coord.append(f'{positive_jump[0]} F{bridge_speed}')
+                list_coord.append(positive_jump[1])
 
                 if contouring_shadow_pass:
-                    listecoord.append(f';SHADOW Milling {contour_type} {key}')
+                    list_coord.append(f';SHADOW Milling {contour_type} {key}')
                     for i, point in enumerate(contour):
                         x = f'X{round(point[0], 2)}'
                         y = f'Y{round(point[1], 2)}'
@@ -157,23 +157,23 @@ def construct_cnc_contouring_gcode(gcode_datas,
                                layer_height)
                         z = f'Z{round(val, 2)}'
                         if i == 0:
-                            listecoord.append(f'G0 {x} {y} F{bridge_speed}')
-                            listecoord.append(f'{negative_jump[0]} '
+                            list_coord.append(f'G0 {x} {y} F{bridge_speed}')
+                            list_coord.append(f'{negative_jump[0]} '
                                               f'F{bridge_speed}')
-                            listecoord.append(negative_jump[1])
+                            list_coord.append(negative_jump[1])
                         elif i > 0:
-                            listecoord.append(f'G1 {x} {y} {z} '
+                            list_coord.append(f'G1 {x} {y} {z} '
                                               f'F{contouring_speed}')
                         
-                    listecoord.append(f'{positive_jump[0]} F{bridge_speed}')
-                    listecoord.append(positive_jump[1])
+                    list_coord.append(f'{positive_jump[0]} F{bridge_speed}')
+                    list_coord.append(positive_jump[1])
 
-        listecoord.append(postamble)
-        listecoord.append(' \n')
-        listecoord.append(';Return at Z print')
-        listecoord.append(f'G1 Z{round(z_layer_height + layer_height, 2)} '
+        list_coord.append(postamble)
+        list_coord.append(' \n')
+        list_coord.append(';Return at Z print')
+        list_coord.append(f'G1 Z{round(z_layer_height + layer_height, 2)} '
                           f'F8000')
-        dict_milling_coord[f'{z_layer_number}'] = listecoord
+        dict_milling_coord[f'{z_layer_number}'] = list_coord
 
     if write_isolate_contouring_code:
         with open(f'{write_folder}/HBD_{filename}_contouring.gcode', 'w',
@@ -192,9 +192,8 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                                   print_tool_number,
                                   surfacing_jump_value,
                                   layer_height,
-                                  z_contouring_adjustment,
                                   write_isolate_surfacing_code,
-                                  surfacing_swoope_speed,
+                                  surfacing_swoop_speed,
                                   surfacing_shadow_pass,
                                   surfacing_roughing_pass_value,
                                   surfacing_roughing_pass,
@@ -204,17 +203,15 @@ def construct_cnc_surfacing_gcode(surfacing_data,
     Constructs CNC surfacing G-code based on the provided parameters.
 
     Args:
-        surfacing_data (dict): Dictionary containing the surfacing data.
-        surfacing_speed (float): Speed for the surfacing operation.
-        bridge_speed (float): Speed for bridging operations.
-        surfacing_tool_number (int): Tool number for surfacing.
-        print_tool_number (int): Tool number for printing.
+        surfacing_data (list): Dictionary containing the surfacing data.
+        surfacing_speed (str): Speed for the surfacing operation.
+        bridge_speed (str): Speed for bridging operations.
+        surfacing_tool_number (str): Tool number for surfacing.
+        print_tool_number (str): Tool number for printing.
         surfacing_jump_value (float): Jump value for surfacing.
         layer_height (float): Height of each layer.
-        z_contouring_adjustment (float): Adjustment value for z-contouring.
-        write_isolate_surfacing_code (bool): Whether to write the isolated
-            surfacing code.
-        surfacing_swoope_speed (float): Speed for surfacing swoop.
+        write_isolate_surfacing_code:
+        surfacing_swoop_speed (str): Speed for surfacing swoop.
         surfacing_shadow_pass (int): Number of shadow passes for surfacing.
         surfacing_roughing_pass_value (float): Value for surfacing roughing
             pass.
@@ -233,7 +230,7 @@ def construct_cnc_surfacing_gcode(surfacing_data,
 
     """
 
-    preambule = f'{surfacing_tool_number}'
+    preamble = f'{surfacing_tool_number}'
     postamble = f'{print_tool_number}'
     surfacing_corrected_jump_value = surfacing_jump_value
     dict_surfacing_coord = {}
@@ -241,10 +238,10 @@ def construct_cnc_surfacing_gcode(surfacing_data,
     negative_jump = [f'G91 G1 Z-{surfacing_corrected_jump_value}', 'G90']
 
     for j, operation in enumerate(surfacing_data):
-        list_surfacing_path = []
+        list_surfacing_path = list()
         z_layer_height = operation['Surface_z_height']
         list_surfacing_path.append(f';CNC Surfacing Z={z_layer_height}')
-        list_surfacing_path.append(preambule)
+        list_surfacing_path.append(preamble)
         val = z_layer_height + surfacing_corrected_jump_value
         list_surfacing_path.append(f'G0 Z{val} F{bridge_speed}')
         
@@ -272,13 +269,13 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                         list_surfacing_path.append(f'G0 {x} {y} '
                                                    f'F{bridge_speed}')
                         list_surfacing_path += (negative_jump +
-                                                [f'F{surfacing_swoope_speed}'])
+                                                [f'F{surfacing_swoop_speed}'])
                     else:
                         list_surfacing_path.append(f'G1 {x} {y} {z} '
                                                    f'F{surfacing_speed}')
                 val = z_layer_height + surfacing_corrected_jump_value
                 list_surfacing_path.append(f'G0 Z{val} '
-                                           f'F{surfacing_swoope_speed}')
+                                           f'F{surfacing_swoop_speed}')
             
         for toolpath in geometries:
             list_coord = list(toolpath.coords)
@@ -289,12 +286,12 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                 if i == 0:
                     list_surfacing_path.append(f'G0 {x} {y} F{bridge_speed}')
                     list_surfacing_path += (negative_jump +
-                                            [f'F{surfacing_swoope_speed}'])
+                                            [f'F{surfacing_swoop_speed}'])
                 else:
                     list_surfacing_path.append(f'G1 {x} {y} {z} '
                                                f'F{surfacing_speed}')
             val = z_layer_height + surfacing_corrected_jump_value
-            list_surfacing_path.append(f'G0 Z{val} F{surfacing_swoope_speed}')
+            list_surfacing_path.append(f'G0 Z{val} F{surfacing_swoop_speed}')
 
         if surfacing_shadow_pass == 1:
             list_surfacing_path.append(f'\n;SHADOW Surfacing '
@@ -309,13 +306,13 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                         list_surfacing_path.append(f'G0 {x} {y} '
                                                    f'F{bridge_speed}')
                         list_surfacing_path += (negative_jump +
-                                                [f'F{surfacing_swoope_speed}'])
+                                                [f'F{surfacing_swoop_speed}'])
                     else:
                         list_surfacing_path.append(f'G1 {x} {y} {z} '
                                                    f'F{surfacing_speed}')
                 val = z_layer_height + surfacing_corrected_jump_value
                 list_surfacing_path.append(f'G0 Z{val} '
-                                           f'F{surfacing_swoope_speed}')
+                                           f'F{surfacing_swoop_speed}')
             
         if surfacing_shadow_pass == 2:
             list_surfacing_path.append(f'\n;SHADOW Surfacing N° 1 '
@@ -330,13 +327,13 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                         list_surfacing_path.append(f'G0 {x} {y} '
                                                    f'F{bridge_speed}')
                         list_surfacing_path += (negative_jump +
-                                                [f'F{surfacing_swoope_speed}'])
+                                                [f'F{surfacing_swoop_speed}'])
                     else:
                         list_surfacing_path.append(f'G1 {x} {y} {z} '
                                                    f'F{surfacing_speed}')
                 val = z_layer_height + surfacing_corrected_jump_value
                 list_surfacing_path.append(f'G0 Z{val} '
-                                           f'F{surfacing_swoope_speed}')
+                                           f'F{surfacing_swoop_speed}')
             
             list_surfacing_path.append(f'\n;SHADOW Surfacing N° 2 '
                                        f'Z={z_layer_height}')
@@ -350,13 +347,13 @@ def construct_cnc_surfacing_gcode(surfacing_data,
                         list_surfacing_path.append(f'G0 {x} {y} '
                                                    f'F{bridge_speed}')
                         list_surfacing_path += (negative_jump +
-                                                [f'F{surfacing_swoope_speed}'])
+                                                [f'F{surfacing_swoop_speed}'])
                     else:
                         list_surfacing_path.append(f'G1 {x} {y} {z} '
                                                    f'F{surfacing_speed}')
                 val = z_layer_height + surfacing_corrected_jump_value
                 list_surfacing_path.append(f'G0 Z{val} '
-                                           f'F{surfacing_swoope_speed}')
+                                           f'F{surfacing_swoop_speed}')
 
         list_surfacing_path.append(postamble)
         list_surfacing_path.append(' \n')
@@ -408,21 +405,20 @@ def merge_contour_and_surfacing_codes(dict_surfacing_coord,
 
     merged_cnt_surfacing_dict = dict()
     surfacing_heights = list(dict_surfacing_coord.keys())
-    for key in dict_milling_coord.keys():
-        layer = key
-        z = dict_milling_coord[key][0][15::]
-        cnt_contenu = dict_milling_coord[key]
-        for clé in surfacing_heights:
-            if float(z) >= float(clé):
-                surf_contenu = dict_surfacing_coord[clé]
+    for layer in dict_milling_coord.keys():
+        z = dict_milling_coord[layer][0][15::]
+        cnt_content = dict_milling_coord[layer]
+        for key in surfacing_heights:
+            if float(z) >= float(key):
+                surf_content = dict_surfacing_coord[key]
                 # remove T2 call, because we are going to contour after...
-                del surf_contenu[-4]
+                del surf_content[-4]
                 # remove T3 call, because surf op already called it
-                del cnt_contenu[2]
-                cnt_contenu = surf_contenu + cnt_contenu
-                surfacing_heights.remove(clé)
+                del cnt_content[2]
+                cnt_content = surf_content + cnt_content
+                surfacing_heights.remove(key)
                 
-        merged_cnt_surfacing_dict[f'{layer}'] = cnt_contenu
+        merged_cnt_surfacing_dict[f'{layer}'] = cnt_content
          
     if write_cnt_surf_merged_code:
         with open(f'{write_folder}/HBD_{filename}_merged_CNC.gcode', 'w',
@@ -435,7 +431,7 @@ def merge_contour_and_surfacing_codes(dict_surfacing_coord,
 
 def hbd_fdm_cnc_merge_codes(gcode,
                             gcode_datas,
-                            merged_CNT_surfacing_dict,
+                            merged_cnt_surfacing_dict,
                             filename,
                             write_folder):
     """
@@ -450,7 +446,7 @@ def hbd_fdm_cnc_merge_codes(gcode,
         gcode_datas (list[dict]): Information about each layer, including the
             layer's ending line (`layer_ending_line`) and its number
             (`layer_number`).
-        merged_CNT_surfacing_dict (dict): Dictionary with layer numbers as keys
+        merged_cnt_surfacing_dict (dict): Dictionary with layer numbers as keys
             and corresponding CNC G-code operations as values.
         filename (str): Name for the output file.
         write_folder (str): Directory to save the output file.
@@ -472,10 +468,10 @@ def hbd_fdm_cnc_merge_codes(gcode,
                 layer = str(gcode_datas[i]['layer_number'])
                 if i == len(gcode_datas) - 1:
                     temp_merged_gcode.insert(index,
-                                             merged_CNT_surfacing_dict[layer])
+                                             merged_cnt_surfacing_dict[layer])
                 else:
                     temp_merged_gcode.insert(index + 5,
-                                             merged_CNT_surfacing_dict[layer])
+                                             merged_cnt_surfacing_dict[layer])
     merged_gcode = list()
     for line in temp_merged_gcode:
         if isinstance(line, str):

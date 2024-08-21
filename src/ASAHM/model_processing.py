@@ -2,7 +2,6 @@
 
 import os
 import trimesh
-import numpy as np
 
 
 def load_model(path_3mf):
@@ -15,7 +14,7 @@ def load_model(path_3mf):
     Returns:
         trimesh.Trimesh: Transformed 3MF model.
         numpy.ndarray: 3x4 transformation matrix extracted from the 3MF file.
-        numpy.ndarray: 3x3 2D transformation matrix calculated based on T.
+        numpy.ndarray: 3x3 2D transformation matrix calculated based on t.
         str: Base name of the 3MF file without its extension.
         list of float: Shifts in the x and y direction calculated by comparing 
         the centroid of the STL model to its hull center.
@@ -30,19 +29,19 @@ def load_model(path_3mf):
 
     os.environ['USE_PYGEOS'] = '0'
     pack = trimesh.load(path_3mf)
+    stl = None
     for key in pack.graph.nodes:
         if any(substring in key.lower() for substring in ('stl', '3mf')):
             stl = key
 
+    if stl is None:
+        raise RuntimeError("Unable to find stl")
     data = {'matrix_transform': pack.graph[stl][0],
             'nom_geom': pack.graph[stl][1]}
     original_model = pack.geometry[data['nom_geom']]
-    T = data['matrix_transform']
-    model = original_model.apply_transform(T)
-    x = T[0][3]
-    y = T[1][3]
-    t_2d = np.array([[1, 0, x], [0, 1, y], [0, 0, 1]])
+    t = data['matrix_transform']
+    model = original_model.apply_transform(t)
     filename_with_extension = os.path.basename(path_3mf)
     filename, _ = os.path.splitext(filename_with_extension)
 
-    return model, T, t_2d, filename
+    return model, t, filename

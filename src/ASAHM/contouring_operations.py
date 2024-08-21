@@ -111,12 +111,12 @@ def get_cnc_contouring_coords(sections_2d,
                 
             if isinstance(buffered_polygon, shapely.geometry.MultiPolygon):
                 for poly in buffered_polygon.geoms:
-                    # Traiter chaque Polygon individuellement
+                    # Handle each Polygon individually
                     buffered_contours['buffered_int'][
                         f'buffered_{interiors}_{poly}'] = np.array(
                         poly.exterior.coords)
             else:
-                # Si ce n'est pas un MultiPolygon, procéder comme avant
+                # If it's not a MultiPolygon, proceed as before
                 buffered_contours['buffered_int'][
                     f'buffered_{interiors}'] = np.array(
                     buffered_polygon.exterior.coords)

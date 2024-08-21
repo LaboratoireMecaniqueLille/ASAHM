@@ -23,8 +23,11 @@ def find_surfacing_zones(model):
         element [0].
 
     Example:
-        >>> python3 -m ASAHM /home/user/Desktop/samples/example_1.3mf \
+        ::
+
+            python3 -m ASAHM /home/user/Desktop/samples/example_1.3mf \
 /home/user/Desktop/samples/example_1.gcode
+
         > Path to INI file not provided, using default values
         > Destination folder not provided, creating file at :
         /home/user/Desktop/samples
@@ -45,7 +48,6 @@ def find_surfacing_zones(model):
 def generate_surfacing_polygon(model_center_base,
                                model,
                                z_surfaces,
-                               t_2d,
                                surfacing_clearance,
                                show_surfacing_polygons):
     """
@@ -61,8 +63,6 @@ def generate_surfacing_polygon(model_center_base,
         model_center_base (list): The center of the model.
         model (Mesh object): The STL model object to analyze.
         z_surfaces (list): List of heights where surfacing zones exist.
-        t_2d (Transformation object): 2D transformation to apply to the
-            generated polygons, inherited from the 3mf.
         surfacing_clearance (float): Clearance value for surfacing, the
             distance going out of the bulk of material to clean chips.
         show_surfacing_polygons (bool): If True, display the generated polygons
@@ -77,7 +77,7 @@ def generate_surfacing_polygon(model_center_base,
     cleaned_z_surfaces = list()
 
     for i, height in enumerate(z_surfaces):
-        # Case where the Z coordinate coresponds to the top of the part
+        # Case where the Z coordinate corresponds to the top of the part
         if height == round(model.bounds[1][2], 2):
 
             section_surfaces = model.section_multiplane(
@@ -157,7 +157,7 @@ def generate_raw_surfacing_toolpath(cleaned_z_surfaces,
                                                     stepover, show=True)
     """
 
-    temp_surfacable_heights = list()
+    temp_surfaceable_heights = list()
     stepover = (surfacing_tool_radius * 2) * surfacing_stepover
     raw_surfacing_toolpath = []
     
@@ -185,14 +185,14 @@ def generate_raw_surfacing_toolpath(cleaned_z_surfaces,
             plt.show()
         
         if not multilinestring.is_empty:
-            temp_surfacable_heights.append(i)
-    surfacable_heights = list(set(temp_surfacable_heights))
-    surfacable_heights.sort()
+            temp_surfaceable_heights.append(i)
+    surfaceable_heights = list(set(temp_surfaceable_heights))
+    surfaceable_heights.sort()
     
-    return raw_surfacing_toolpath, surfacable_heights
+    return raw_surfacing_toolpath, surfaceable_heights
 
 
-def generate_surfacing_data(surfacable_heights,
+def generate_surfacing_data(surfaceable_heights,
                             z_surfaces,
                             cleaned_z_surfaces,
                             raw_surfacing_toolpath):
@@ -201,7 +201,7 @@ def generate_surfacing_data(surfacable_heights,
     generate G-codes for surfacing.
 
     Args:
-        surfacable_heights:
+        surfaceable_heights:
         z_surfaces (list): List of heights where horizontal faces have been
             detected.
         cleaned_z_surfaces (list): List of polygons (after cleaning)
@@ -224,12 +224,12 @@ def generate_surfacing_data(surfacable_heights,
 
     surfacing_data = list()
 
-    for i in surfacable_heights:
-        dicsurf = dict()
-        dicsurf["Surface_z_height"] = z_surfaces[i]
-        dicsurf["Surface_poly"] = cleaned_z_surfaces[i]
-        dicsurf["Surfacing_passes"] = raw_surfacing_toolpath[i]
-        surfacing_data.append(dicsurf)
+    for i in surfaceable_heights:
+        dic_surf = dict()
+        dic_surf["Surface_z_height"] = z_surfaces[i]
+        dic_surf["Surface_poly"] = cleaned_z_surfaces[i]
+        dic_surf["Surfacing_passes"] = raw_surfacing_toolpath[i]
+        surfacing_data.append(dic_surf)
     return surfacing_data
 
 

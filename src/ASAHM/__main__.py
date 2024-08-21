@@ -35,7 +35,7 @@ path_3mf = args.path_3mf
 path_gcode = args.path_gcode
 path_ini_file = args.path_ini_file
 if path_ini_file is None:
-    path_ini_file = "unexistant"
+    path_ini_file = "nonexistent"
     print("> Path to INI file not provided, using default values")
 write_folder = args.final_folder
 if write_folder is None:
@@ -49,37 +49,37 @@ config = ConfigParser()
 config.read(path_ini_file)
 
 # subtractive parameters
-substractive_start_layer = config.getint(
-    'substractive', 'substractive_start_layer', fallback=3)
+subtractive_start_layer = config.getint(
+    'subtractive', 'subtractive_start_layer', fallback=3)
 z_contouring_adjustment = config.getfloat(
-  'substractive', 'z_contouring_adjustment', fallback=0.1)
+  'subtractive', 'z_contouring_adjustment', fallback=0.1)
 contouring_direction = config.get(
-    'substractive', 'contouring_direction', fallback='conventional')
+    'subtractive', 'contouring_direction', fallback='conventional')
 contouring_speed = config.get(
-    'substractive', 'contouring_speed', fallback='650')
-bridge_speed = config.get('substractive', 'bridge_speed', fallback='3500')
-jump_value = config.getfloat('substractive', 'jump_value', fallback=1)
+    'subtractive', 'contouring_speed', fallback='650')
+bridge_speed = config.get('subtractive', 'bridge_speed', fallback='3500')
+jump_value = config.getfloat('subtractive', 'jump_value', fallback=1)
 surfacing_direction = config.get(
-    'substractive', 'surfacing_direction', fallback='conventional')
-surfacing_speed = config.get('substractive', 'surfacing_speed', fallback='850')
+    'subtractive', 'surfacing_direction', fallback='conventional')
+surfacing_speed = config.get('subtractive', 'surfacing_speed', fallback='850')
 surfacing_jump_value = config.getfloat(
-    'substractive', 'surfacing_jump_value', fallback=0.5)
-surfacing_swoope_speed = config.get(
-    'substractive', 'surfacing_swoope_speed', fallback='50')
+    'subtractive', 'surfacing_jump_value', fallback=0.5)
+surfacing_swoop_speed = config.get(
+    'subtractive', 'surfacing_swoop_speed', fallback='50')
 surfacing_clearance = config.getfloat(
-    'substractive', 'surfacing_clearance', fallback=1)
+    'subtractive', 'surfacing_clearance', fallback=1)
 surfacing_shadow_pass = config.getint(
-    'substractive', 'surfacing_shadow_pass', fallback=2)
+    'subtractive', 'surfacing_shadow_pass', fallback=2)
 surfacing_roughing_pass_value = config.getfloat(
-  'substractive', 'surfacing_roughing_pass_value', fallback=0.05)
+  'subtractive', 'surfacing_roughing_pass_value', fallback=0.05)
 surfacing_roughing_pass = config.getboolean(
-    'substractive', 'surfacing_roughing_pass', fallback=True)
+    'subtractive', 'surfacing_roughing_pass', fallback=True)
 surfacing_stepover = config.getfloat(
-    'substractive', 'surfacing_stepover', fallback=0.75)
+    'subtractive', 'surfacing_stepover', fallback=0.75)
 # global parameters
 stand_by_temp = config.get('global', 'stand_by_temp', fallback='150')
 contouring_shadow_pass = config.getboolean(
-    'substractive', 'contouring_shadow_pass', fallback=False)
+    'subtractive', 'contouring_shadow_pass', fallback=False)
 surfacing_tool_number = config.get(
     'global', 'surfacing_tool_number', fallback='T1')
 surfacing_tool_radius = config.getfloat(
@@ -113,12 +113,11 @@ with open(path_gcode, 'r', encoding='UTF-8') as gcode:
 # Generates a list with the Z coordinates where the model has been sliced in
 # the gcode
 gcode_datas, gcode_z_slices = extract_layer_data(gcode,
-                                                 substractive_start_layer,
+                                                 subtractive_start_layer,
                                                  layer_height)
 
 # Put the model (STL) in the right position for the 3d printer
-# >>> model, T, t_2d, filename, xy_shift = load_model(path_3mf,path_stl)
-model, T, t_2d, filename = load_model(path_3mf)
+model, T, filename = load_model(path_3mf)
 
 # Makes slices on the STL on which we applied our transform matrix on XY at
 # correct heights
@@ -152,17 +151,16 @@ dict_milling_coord = construct_cnc_contouring_gcode(
 # present
 z_surfaces = find_surfacing_zones(model)
 
-# Generates a list containing the diferent polygons (cleaned and offeseted) to
-# be machined)
+# Generates a list containing the different polygons (cleaned and offset) to
+# be machined
 cleaned_z_surfaces = generate_surfacing_polygon(model_center_base,
                                                 model,
                                                 z_surfaces,
-                                                t_2d,
                                                 surfacing_clearance,
                                                 show_surfacing_polygons)
 
 # From previous polygons, we generate toolpaths and put them in a list
-raw_surfacing_toolpath, surfacable_heights = generate_raw_surfacing_toolpath(
+raw_surfacing_toolpath, surfaceable_heights = generate_raw_surfacing_toolpath(
     cleaned_z_surfaces,
     surfacing_tool_radius,
     surfacing_stepover,
@@ -170,8 +168,7 @@ raw_surfacing_toolpath, surfacable_heights = generate_raw_surfacing_toolpath(
 
 # Generates a list with surfacing operations infos (polygon, Z height,
 # toolpaths)
-surfacing_data = generate_surfacing_data(surfacable_heights,
-                                         z_surfaces,
+surfacing_data = generate_surfacing_data(surfaceable_heights, z_surfaces,
                                          cleaned_z_surfaces,
                                          raw_surfacing_toolpath)
 
@@ -188,9 +185,8 @@ dict_surfacing_coord = construct_cnc_surfacing_gcode(
     print_tool_number,
     surfacing_jump_value,
     layer_height,
-    z_contouring_adjustment,
     write_isolate_surfacing_code,
-    surfacing_swoope_speed,
+    surfacing_swoop_speed,
     surfacing_shadow_pass,
     surfacing_roughing_pass_value,
     surfacing_roughing_pass,
@@ -206,10 +202,8 @@ merged_cnt_surfacing_dict = merge_contour_and_surfacing_codes(
     write_folder)
 
 # Write HBD Gcode
-merged_gcode = hbd_fdm_cnc_merge_codes(gcode,
-                                       gcode_datas,
-                                       merged_cnt_surfacing_dict,
-                                       filename,
+merged_gcode = hbd_fdm_cnc_merge_codes(gcode, gcode_datas,
+                                       merged_cnt_surfacing_dict, filename,
                                        write_folder)
 
 end_time = time.time()
