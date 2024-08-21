@@ -42,7 +42,7 @@ Example:
     ::
 
         python -m ASAHM /home/usr/Desktop/example.3mf \
-/home/usr/Desktop/example.stl /home/usr/Desktop/example.gcode
+/home/usr/Desktop/example.gcode
 
     or:
     ::

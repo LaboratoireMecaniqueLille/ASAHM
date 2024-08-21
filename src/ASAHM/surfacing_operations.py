@@ -23,8 +23,7 @@ def find_surfacing_zones(model):
         element [0].
 
     Example:
-        >>> python3 -m hybridator /home/user/Desktop/samples/example_1.3mf \
-home/user/Desktop/samples/example_1.stl \
+        >>> python3 -m ASAHM /home/user/Desktop/samples/example_1.3mf \
 /home/user/Desktop/samples/example_1.gcode
         > Path to INI file not provided, using default values
         > Destination folder not provided, creating file at :
