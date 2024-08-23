@@ -25,8 +25,8 @@ def find_surfacing_zones(model):
     Example:
         ::
 
-            python3 -m ASAHM /home/user/Desktop/samples/example_1.3mf \
-/home/user/Desktop/samples/example_1.gcode
+            python3 -m ASAHM /home/user/Desktop/samples/example.3mf \
+/home/user/Desktop/samples/example.gcode
 
         > Path to INI file not provided, using default values
         > Destination folder not provided, creating file at :
