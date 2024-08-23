@@ -48,8 +48,8 @@ Example:
     ::
 
         python -m ASAHM /home/usr/Desktop/example.3mf \
-/home/usr/Desktop/example.gcode --path_ini_file /home/usr/Desktop \
---final_folder /home/usr/Desktop
+/home/usr/Desktop/example.gcode --path_ini_file \
+/home/usr/Desktop/parameters.ini --final_folder /home/usr/Desktop
 
 """
 
