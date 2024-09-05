@@ -12,7 +12,7 @@ layer within the original Gcode.
 - The end of the printing Gcode, also configurable in the slicer, must contain the string “ ;MESH:NONMESH” as 
 the first line of the block. 
 
-Example:
+Example:  
 To use this module, provide the paths to the 3MF and GCODE files as command-line arguments. Optionally, provide 
 paths to the parameters INI file and the output folder. For example:
 python3 -m asham /home/user/example_part.3mf /home/user/example_part.gcode --path_ini_file /home/user/hybrid_parameters.ini 
