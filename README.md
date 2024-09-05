@@ -18,12 +18,12 @@ paths to the parameters INI file and the output folder. For example:
 python3 -m asham /home/user/example_part.3mf /home/user/example_part.gcode --path_ini_file /home/user/hybrid_parameters.ini 
 
 Attributes:
-    path_3mf (str): Path to the 3MF file.
-    path_stl (str): Path to the STL file.
-    --path_ini_file (str, optional): Path to the parameters INI file.
-    Default is None.
-    --final_folder (str, optional): Path to write the hybridized Gcode. Default
-    is the directory of the GCODE file.
+path_3mf (str): Path to the 3MF file.
+path_stl (str): Path to the STL file.
+--path_ini_file (str, optional): Path to the parameters INI file.
+Default is None.
+--final_folder (str, optional): Path to write the hybridized Gcode. Default
+is the directory of the GCODE file.
 
 Functions:
     raise_nonmesh_travel_speed(): Modifies non-mesh travel speeds in G-code.
