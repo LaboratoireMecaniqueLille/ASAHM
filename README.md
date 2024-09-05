@@ -1,4 +1,4 @@
-# ASAHM : ASAHM : Automated Subtractive Additive Hybrid Manufacturing, a Python module for native hybrid FFF ⁄ CNC manufacturing
+# ASAHM : Automated Subtractive Additive Hybrid Manufacturing, a Python module for native hybrid FFF ⁄ CNC manufacturing
 
 Read our SoftwareX article for further informations
 
