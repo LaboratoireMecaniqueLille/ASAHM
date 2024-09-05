@@ -1,16 +1,16 @@
 # ASAHM : ASAHM : Automated Subtractive Additive Hybrid Manufacturing, a Python module for native hybrid FFF ⁄ CNC manufacturing
 
->>> Read our SoftwareX article for further informations <<<
+Read our SoftwareX article for further informations
 
 # Hybrid G-Code Generator
 
 This module provides functionality for generating a hybridized G-code (containing CNC machining and 3d printing commands) usable on a RepRap multi tool machine equipped with CNC milling system and FFF 3d printing extruders. The module works given 3MF, STL, and GCODE files. The Gcode has to be generated with Cura Slicer, some conditions must be met when using programming printing on the slicer:
-    • Only one STL model can be treated on the workspace.
-    •  A Gcode post-processing macro must be set up within the slicer so that each time a layer is changed, the     
-       string “LAYER CHANGE” appears. This is the “trigger” used by ASAHM to detect the beginning and end of a 
-       layer within the original Gcode.
-    • The end of the printing Gcode, also configurable in the slicer, must contain the string “ ;MESH:NONMESH” as 
-      the first line of the block. 
+- Only one STL model can be treated on the workspace.
+- A Gcode post-processing macro must be set up within the slicer so that each time a layer is changed, the     
+string “LAYER CHANGE” appears. This is the “trigger” used by ASAHM to detect the beginning and end of a 
+layer within the original Gcode.
+- The end of the printing Gcode, also configurable in the slicer, must contain the string “ ;MESH:NONMESH” as 
+the first line of the block. 
 
 Example:
 To use this module, provide the paths to the 3MF and GCODE files as command-line arguments. Optionally, provide 
